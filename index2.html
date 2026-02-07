@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>画像表示ツール</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        .controls { margin-bottom: 20px; }
+        input { padding: 8px; font-size: 16px; width: 250px; }
+        button { padding: 8px 15px; font-size: 16px; cursor: pointer; }
+        .image-area { margin-top: 20px; border: 2px dashed #ccc; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+        img { max-width: 90%; height: auto; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>画像ファイル名検索</h2>
+    <p>imagesフォルダ内のファイル名を（拡張子抜きで）入力してください</p>
+
+    <div class="controls">
+        <input type="text" id="fileNameInput" placeholder="例: photo01">
+        <button onclick="displayImage()">表示する</button>
+    </div>
+
+    <div class="image-area" id="dropArea">
+        <p id="message">画像がここに表示されます</p>
+        <img id="targetImage" src="" alt="表示画像">
+    </div>
+
+    <script>
+        function displayImage() {
+            const input = document.getElementById('fileNameInput').value;
+            const imgElement = document.getElementById('targetImage');
+            const message = document.getElementById('message');
+
+            if (input) {
+                // imagesフォルダ内の .jpg を指定
+                const imagePath = `images/${input}.jpg`;
+                
+                imgElement.src = imagePath;
+                imgElement.style.display = 'block';
+                message.style.display = 'none';
+
+                // 画像が読み込めなかった時の処理
+                imgElement.onerror = function() {
+                    imgElement.style.display = 'none';
+                    message.style.display = 'block';
+                    message.innerText = "エラー: " + imagePath + " が見つかりません。";
+                };
+            }
+        }
+    </script>
+
+</body>
+</html>

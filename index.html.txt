@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>CSVデータ表示</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .result { font-size: 1.2rem; font-weight: bold; color: #2c3e50; }
+        .info { color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <h2>CSVファイルの特定データ表示</h2>
+    <div class="info">4行目・2列目の値:</div>
+    <div id="display" class="result">読み込み中...</div>
+
+    <script>
+        async function loadCSV() {
+            try {
+                // 1. 同階層のtest.csvを取得
+                const response = await fetch('./uranai.csv');
+                if (!response.ok) throw new Error('ファイルが見つかりません');
+                
+                const text = await response.text();
+
+                // 2. テキストを配列に変換
+                // 改行で分割し、さらにカンマで分割して2次元配列にする
+                const rows = text.trim().split('\n').map(row => row.split(','));
+
+                // 3. 4行目の2列目を取得 (配列は0から始まるので [3][1] となる)
+                // 行・列が存在するかチェック
+                if (rows[3] && rows[3][1]) {
+                    const targetValue = rows[3][1];
+                    document.getElementById('display').textContent = targetValue;
+                } else {
+                    document.getElementById('display').textContent = '指定されたセルにデータがありません。';
+                }
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('display').textContent = 'エラー: ' + error.message;
+            }
+        }
+
+        // ページ読み込み時に実行
+        window.onload = loadCSV;
+    </script>
+</body>
+</html>
