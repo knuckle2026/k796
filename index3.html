@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リンク集 | 開運バナナ占い</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Monochrome Minimal -->
+    <!-- Application Structure Plan: 
+         1. ロゴ表示: images/logo.jpg を最上部に配置。
+         2. リンク一覧: 有名な5つのポータルサイトを名称のみで縦に配置。説明文を排除し、極めて簡潔なリストを作成。
+         3. ナビゲーション: 「算出システム」と「鑑定のご案内」へのリンクを最下部に設置。
+    -->
+    <!-- Visualization & Content Choices:
+         - レイアウト: 余計な枠線を減らし、テキスト中心の構成。
+         - インタラクション: ホバー時にテキストがアンダーラインされる、または色が薄くなる程度のシンプルな反応。
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-white text-black font-sans p-6">
+
+    <!-- ロゴ -->
+    <div class="max-w-md mx-auto mb-10 text-center">
+        <img src="images/logo.jpg" alt="Logo" class="mx-auto max-w-full h-auto" onerror="this.style.display='none';">
+    </div>
+
+    <!-- タイトル -->
+    <header class="max-w-md mx-auto mb-10 text-center">
+        <h1 class="text-xl font-bold tracking-widest">リンク集</h1>
+    </header>
+
+    <!-- リンク一覧 -->
+    <main class="max-w-md mx-auto space-y-6 mb-16 text-center">
+        <a href="https://www.google.co.jp" target="_blank" rel="noopener noreferrer" class="block text-lg hover:underline underline-offset-4">Google</a>
+        <a href="https://www.yahoo.co.jp" target="_blank" rel="noopener noreferrer" class="block text-lg hover:underline underline-offset-4">Yahoo! JAPAN</a>
+        <a href="https://www.msn.com/ja-jp" target="_blank" rel="noopener noreferrer" class="block text-lg hover:underline underline-offset-4">MSN</a>
+        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="block text-lg hover:underline underline-offset-4">YouTube</a>
+        <a href="https://ja.wikipedia.org" target="_blank" rel="noopener noreferrer" class="block text-lg hover:underline underline-offset-4">Wikipedia</a>
+    </main>
+
+    <!-- ナビゲーション -->
+    <nav class="max-w-xs mx-auto space-y-3 pt-10 border-t border-black">
+        <a href="index.html" class="block text-center border border-black py-3 text-sm font-bold hover:bg-black hover:text-white transition-colors">
+            ＜ トップページに戻る
+        </a>
+        <a href="index2.html" class="block text-center border border-black py-3 text-sm font-bold hover:bg-black hover:text-white transition-colors">
+            対面鑑定のご案内 ＞
+        </a>
+    </nav>
+
+    <footer class="mt-20 text-center text-[10px] text-gray-400 uppercase tracking-widest">
+        &copy; 開運バナナ占い
+    </footer>
+
+</body>
+</html>
