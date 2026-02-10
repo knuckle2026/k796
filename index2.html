@@ -6,7 +6,8 @@
     <title>対面鑑定のご案内 | 開運バナナ占い</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+        /* フォントウェイト900(Black)を追加ロード */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&display=swap');
         
         body {
             font-family: 'Noto Sans JP', sans-serif;
@@ -28,30 +29,22 @@
             transform: translateY(0);
         }
     </style>
-    <!-- Chosen Palette: Traditional Slate (Slate, Beige, Black, White) -->
-    <!-- Application Structure Plan: 
-         1. ヒーローセクション: images/shinshi.jpg をアイコンとして円形配置。伝統的キャッチコピーを強調。
-         2. コンセプト: 占術名に頼らず、的中率そのものを伝えるテキスト。
-         3. 料金システム: 1,000円＋納得価格制。指定された一文を際立たせるデザイン。
-         4. アクションエリア: 予約ボタンとXリンクを並列配置。
-         5. フッターナビ: メインツールとリンク集へのリンク。
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="text-slate-900 overflow-x-hidden leading-relaxed">
 
     <!-- Header Section -->
     <header class="py-12 px-4 text-center">
         <div class="max-w-xs mx-auto mb-6">
-            <img src="images/shinshi3.jpg" alt="鑑定士イメージ" class="w-32 h-32 md:w-40 md:h-40 mx-auto object-cover rounded-full border-2 border-slate-800 shadow-xl" onerror="this.alt='Logo Image'; this.classList.add('bg-slate-200');">
+            <img src="images/shinshi.jpg" alt="鑑定士イメージ" class="w-32 h-32 md:w-40 md:h-40 mx-auto object-cover rounded-full border-2 border-slate-800 shadow-xl" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-32 h-32 md:w-40 md:h-40 mx-auto bg-slate-200 rounded-full flex items-center justify-center border-2 border-slate-800 shadow-xl\'><span class=\'text-4xl\'>🍌</span></div>';">
         </div>
         <div class="inline-block border-y border-slate-800 py-4 px-6 md:px-12 mb-4">
             <h2 class="text-2xl md:text-4xl font-serif-jp tracking-[0.3em] font-bold leading-relaxed text-slate-900">
                 対面鑑定のご案内<br class="md:hidden">
             </h2>
         </div>
-        <p class="text-sm md:text-base text-slate-600 tracking-widest mt-4 font-light italic">
-            開運バナナ占い（あなたのバナナをじっくり鑑定）
+        <!-- 変更箇所: 明朝体クラス(font-serif-jp)を追加 -->
+        <p class="text-base md:text-lg text-slate-900 tracking-widest mt-4 font-bold font-serif-jp">
+            あなたのバナナをじっくり鑑定
         </p>
     </header>
 
@@ -61,10 +54,13 @@
         <section class="scroll-reveal active text-center">
             <div class="space-y-6">
                 <h3 class="text-xs font-bold text-slate-400 tracking-[0.5em] uppercase font-sans"></h3>
-                <h4 class="text-xl font-bold font-serif-jp underline underline-offset-8">鑑定システム</h4>
-                <p class="text-sm md:text-base leading-loose text-slate-700">
-                    基本の占術は九星、四柱推命、手相。<br class="hidden md:block">
-                    無料で開運バナナ占いをお付けできます。<br>
+                <h4 class="text-xl font-bold font-serif-jp underline underline-offset-8">鑑定</h4>
+                <!-- 変更箇所: font-boldクラスを追加 -->
+                <p class="text-sm md:text-base leading-loose text-slate-700 font-serif-jp font-bold">
+                    基本の占術は九星、四柱推命、手相など。<br class="hidden md:block">
+                    <!-- 画像を追加 -->
+                    <img src="images/sepia.jpg" alt="鑑定風景" class="w-full max-w-xs mx-auto my-6 rounded-sm shadow-lg opacity-90">
+                    無料でバナナ鑑定をお付けできます<br>
                     <br>
                     
                 </p>
@@ -74,23 +70,32 @@
         <!-- Pricing System -->
         <section class="scroll-reveal bg-slate-900 text-white p-8 rounded-sm shadow-2xl">
             <div class="text-center space-y-8">
-                <h3 class="text-xs font-bold text-slate-500 tracking-[0.5em] uppercase font-sans">料金システム</h3>
-                <h4 class="text-xl font-bold font-serif-jp text-white">納得の対価システム</h4>
+                <!-- 変更箇所: 明朝体、サイズアップ、下線で見出し化 -->
+                <div class="mb-4">
+                    <!-- 文言変更: 料金システム -> 料金 -->
+                    <h3 class="text-2xl font-bold text-white tracking-[0.2em] font-serif-jp border-b border-slate-600 pb-3 inline-block">料金</h3>
+                    <!-- 変更箇所: text-slate-400 -> text-white, text-sm -> text-lgに変更 -->
+                    <h4 class="text-lg font-serif-jp text-white mt-3 font-bold">納得の対価システム</h4>
+                </div>
                 
                 <div class="py-6 border-y border-slate-700">
-                    <p class="text-[10px] text-slate-400 mb-2 font-bold uppercase tracking-widest">基本料金</p>
-                    <p class="text-3xl font-bold tracking-tighter"> 1,000円</p>
+                    <!-- 変更箇所: text-slate-400 -> text-white に変更 -->
+                    <p class="text-sm text-white mb-2 font-black uppercase tracking-widest font-serif-jp">基本料金</p>
+                    <!-- 変更箇所: font-serif-jpクラスを追加 -->
+                    <p class="text-3xl font-bold tracking-tighter font-serif-jp"> 1,000円</p>
                 </div>
 
                 <div class="space-y-6">
-                    <p class="text-sm leading-relaxed text-slate-200">
+                    <!-- 変更箇所: text-slate-200 -> text-white, font-boldを追加 -->
+                    <p class="text-base md:text-lg leading-relaxed text-white font-serif-jp font-bold">
                         鑑定終了後、基本料金に加え、<br>
-                        <span class="text-lg font-bold text-white">「お客様が納得された分だけの金額」</span><br>
+                        「お客様が納得された分だけの金額」<br>
                         を自由にお決めいただくシステムを導入しております。
                     </p>
                     
                     <div class="pt-6 border-t border-slate-600">
-                        <p class="text-base md:text-xl font-bold text-white tracking-tight leading-relaxed">
+                        <!-- 変更箇所: font-serif-jpクラスを追加 -->
+                        <p class="text-base md:text-xl font-bold text-white tracking-tight leading-relaxed font-serif-jp">
                             提供する価値を決めるのは、<br class="hidden md:block">
                             お客様ご自身です。
                         </p>
@@ -102,12 +107,15 @@
         <!-- Action Area: Buttons -->
         <section class="scroll-reveal space-y-10 text-center">
             <div class="space-y-4">
-                <h3 class="text-xs font-bold text-slate-400 tracking-[0.5em] uppercase font-sans">Reservation & Social</h3>
+                <!-- 文言修正箇所: font-sans -> font-serif-jp に変更 -->
+                <h2 class="text-sm font-bold text-slate-900 tracking-widest uppercase font-serif-jp">
+                    現在予約困難。紹介やXのDMでも受付中
+                </h2>
                 
                 <!-- Button Group -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <!-- Reservation Button -->
-                    <a href="https://reserva.be/877uranai" class="w-full sm:w-auto min-w-[240px] bg-slate-900 text-white px-8 py-5 font-bold text-sm hover:bg-slate-700 transition-all active:scale-95 shadow-xl">
+                    <a href="https://airrsv.net/877uranai/calendar" class="w-full sm:w-auto min-w-[240px] bg-slate-900 text-white px-8 py-5 font-bold text-sm hover:bg-slate-700 transition-all active:scale-95 shadow-xl">
                         対面鑑定を予約（準備中）
                     </a>
                     
@@ -122,7 +130,8 @@
             <div class="max-w-md mx-auto">
                 <div class="bg-slate-50 p-4 border border-slate-200 text-left">
                     <p class="text-xs font-bold mb-2">【鑑定場所】</p>
-                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                    <!-- 変更箇所: text-[11px] -> text-sm, text-slate-600 -> text-slate-700 に変更 -->
+                    <p class="text-sm text-slate-700 leading-relaxed">
                         JR東中野駅西口から徒歩10分の閑静な一室<br>
                         詳細な住所はご予約確定後に個別にご案内いたします。
                     </p>
@@ -169,6 +178,4 @@
         });
     </script>
 </body>
-
 </html>
-
