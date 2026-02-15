@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>開運バナナ占い</title>
+    <!-- Version 2.25.0: テイルイヤーの表示サイズを縮小 -->
+    <title>開運バナナ占い Ver 2.25.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- フォント読み込み: Noto Serif JP (明朝体) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -12,34 +13,20 @@
             font-family: 'Noto Serif JP', serif;
         }
     </style>
-    <!-- Chosen Palette: Slate & Minimalist -->
-    <!-- Application Structure Plan: 
-         1. ヘッダー: images/logo.jpg を配置し、タイトルと説明文を表示。
-         2. 入力フォーム: 年(input:空)、月(select)、日(select)を横1列（各33%幅）で配置。
-         3. 計算ロジック: 1926年2月4日基準の剰余計算（0-59）。年が空の場合はエラー表示。
-         4. データ連携: uranai.csvを取得。剰余値と一致する行の3列目（画像名）に「.jpg」を付与してimages/から読み込み、4列目のテキストを表示。
-         5. 下部リンク: 「鑑定のご案内」と「リンク集」を縦に並べて配置。
-    -->
-    <!-- Visualization & Content Choices:
-         - レイアウト: 情報を中央に集約し、モバイルフレンドリーな横並び入力を採用。
-         - 画像処理: CSV内のファイル名に自動で拡張子 .jpg を追加。
-         - ナビゲーション: ページ下部にボタン形式のリンクを垂直にスタック。
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
-<!-- 変更: font-sans を削除 -->
 <body class="bg-white text-black p-4">
 
     <!-- サイトロゴ -->
     <div class="max-w-xl mx-auto mb-6 text-center">
-        <img src="images/logo.jpg" alt="Logo" class="mx-auto max-w-full h-auto" onerror="this.alt='Logo Image';">
+        <!-- プレビュー用のダミー画像処理 -->
+        <img src="images/logo.jpg" alt="Logo" class="mx-auto max-w-full h-auto" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'p-4 border border-dashed border-[#3e2723] text-[#3e2723]\'>[Logo Image]</div>';">
     </div>
 
     <!-- タイトルと説明文 -->
     <header class="max-w-xl mx-auto mb-8 text-center px-2">
-        <!-- 変更: text-slate-900 -> text-[#3e2723] (こげ茶色) に変更 -->
+        <!-- タイトル色: こげ茶色 -->
         <h1 class="text-2xl font-bold mb-3 tracking-tight text-[#3e2723]">開運バナナ占い</h1>
-        <!-- 変更: 不要な案内文を削除し、キャッチコピーを強調(サイズアップ・太字・字間広め) -->
+        <!-- キャッチコピー: 大きく太く -->
         <p class="text-lg md:text-xl font-bold text-slate-900 leading-relaxed tracking-wider">
             変態な紳士専門の占いが爆誕！
         </p>
@@ -49,12 +36,12 @@
     <main class="max-w-xl mx-auto border-2 border-black p-5 shadow-sm bg-white mb-10">
         
         <div class="mb-6">
-            <!-- 変更: text-[10px] -> text-base にサイズアップ -->
+            <!-- 生年月日見出し: サイズアップ -->
             <h2 class="text-base font-bold uppercase tracking-widest text-slate-500 mb-3 border-l-4 border-black pl-2">生年月日</h2>
             
             <!-- 入力エリア（横1行） -->
             <div class="flex flex-row space-x-2">
-                <!-- 年入力 (初期値空欄) -->
+                <!-- 年入力 -->
                 <div class="w-1/3">
                     <label class="block text-[10px] font-bold mb-1">年 (西暦)</label>
                     <input type="number" id="year" placeholder="例: 1980" class="w-full border border-black p-2 text-base outline-none focus:bg-slate-50 appearance-none">
@@ -78,7 +65,7 @@
             占う
         </button>
 
-        <!-- 結果表示エリア -->
+        <!-- 1. バナナ占い結果表示エリア -->
         <div id="resultContainer" class="hidden border-t-2 border-black mt-8 pt-6 text-center">
             <div class="inline-block bg-black text-white text-[10px] px-3 py-1 mb-6 tracking-tighter">
                  <span id="numValue"></span>
@@ -96,13 +83,53 @@
             </div>
         </div>
 
-        <!-- エラーログ（デバッグ用） -->
+        <!-- 2. エラーログ（デバッグ用） -->
         <div id="errorMessage" class="hidden mt-6 p-3 border border-red-500 text-red-600 text-[10px] font-mono">
             <ul id="errorDetails" class="list-disc list-inside"></ul>
         </div>
+
+        <!-- 3. ステラナンバー & テイルイヤー表示エリア -->
+        <div id="stellaContainer" class="hidden mt-8 pt-6 border-t-2 border-slate-200 text-center">
+            
+            <!-- ステラナンバー -->
+            <div class="mb-8">
+                <!-- 見出し -->
+                <h3 class="text-base font-bold text-black uppercase tracking-widest mb-4">以下のような面もあります。</h3>
+                
+                <!-- 数値 -->
+                <div class="inline-block border-2 border-[#3e2723] text-[#3e2723] px-2 py-1 min-w-[40px] bg-white">
+                    <span id="stellaValue" class="text-lg font-bold"></span>
+                </div>
+                
+                <!-- ステラナンバー詳細 (stera.csvの内容) -->
+                <div id="stellaDescription" class="hidden mt-6 text-sm md:text-base text-black font-bold bg-slate-50 p-6 border border-slate-200 text-left leading-loose mx-auto max-w-lg shadow-sm">
+                    <!-- CSVから取得したテキスト -->
+                </div>
+            </div>
+
+            <!-- テイルイヤー -->
+            <div class="pt-6 border-t border-dashed border-slate-300">
+                <h3 class="text-base font-bold text-black uppercase tracking-widest mb-2">次の誕生日までの流れ</h3>
+                
+                <p class="text-[10px] text-slate-400 mb-4">
+                    <span id="currentAge" class="font-bold text-slate-600"></span>歳
+                </p>
+                
+                <!-- 変更箇所: px-2 py-1, min-w-[40px], text-lg -->
+                <div class="inline-block border-2 border-slate-500 text-slate-600 px-2 py-1 min-w-[40px] bg-white">
+                    <span id="tailYearValue" class="text-lg font-bold"></span>
+                </div>
+
+                <!-- テイルイヤー詳細 (tale.csvの内容) -->
+                <div id="tailYearDescription" class="hidden mt-6 text-sm md:text-base text-black font-bold bg-slate-50 p-6 border border-slate-200 text-left leading-loose mx-auto max-w-lg shadow-sm">
+                    <!-- CSVから取得したテキスト -->
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <!-- ナビゲーションリンク集（縦並び） -->
+    <!-- ナビゲーションリンク集 -->
     <nav class="max-w-xl mx-auto mb-12 px-2">
         <div class="flex flex-col gap-3 max-w-xs mx-auto">
             <a href="index2.html" class="block text-center border border-black px-6 py-3 text-sm font-bold hover:bg-black hover:text-white transition-colors">
@@ -115,7 +142,7 @@
     </nav>
 
     <footer class="max-w-xl mx-auto text-center text-[10px] text-slate-400 uppercase tracking-widest pb-10">
-        Base Reference: February 4, 1926 | images/ directory integrated | Auto .jpg extension
+        Base Reference: February 4, 1926 | Ver 2.25.0
     </footer>
 
     <script>
@@ -124,13 +151,27 @@
             const monthSelect = document.getElementById('month');
             const daySelect = document.getElementById('day');
             const calcBtn = document.getElementById('calcBtn');
+            
+            // 各エリアの取得
             const resultContainer = document.getElementById('resultContainer');
+            const stellaContainer = document.getElementById('stellaContainer');
+            
+            // バナナ占い用要素
             const resultImage = document.getElementById('resultImage');
             const resultText = document.getElementById('resultText');
             const numValueDisplay = document.getElementById('numValue');
+            const imageError = document.getElementById('imageError');
+            
+            // ステラ・テイル用要素
+            const stellaValueDisplay = document.getElementById('stellaValue');
+            const stellaDescription = document.getElementById('stellaDescription');
+            const tailYearValueDisplay = document.getElementById('tailYearValue');
+            const tailYearDescription = document.getElementById('tailYearDescription');
+            const currentAgeDisplay = document.getElementById('currentAge');
+            
+            // エラー表示用
             const errorMessage = document.getElementById('errorMessage');
             const errorDetails = document.getElementById('errorDetails');
-            const imageError = document.getElementById('imageError');
 
             const REF_DATE = Date.UTC(1926, 1, 4);
 
@@ -141,7 +182,7 @@
                 monthSelect.appendChild(opt);
             }
 
-            // 日の更新ロジック（閏年・月末対応）
+            // 日の更新ロジック
             function updateDays() {
                 const year = parseInt(yearInput.value) || 2000;
                 const month = parseInt(monthSelect.value);
@@ -167,12 +208,16 @@
                 imageError.classList.remove('hidden');
             };
 
-            // 計算・表示メイン処理
+            // メイン処理
             calcBtn.addEventListener('click', async () => {
+                // 初期化
                 errorMessage.classList.add('hidden');
                 errorDetails.innerHTML = '';
                 imageError.classList.add('hidden');
                 resultContainer.classList.add('hidden');
+                stellaContainer.classList.add('hidden'); // 一旦隠す
+                stellaDescription.classList.add('hidden');
+                tailYearDescription.classList.add('hidden');
                 resultImage.style.display = 'none';
 
                 const yearVal = yearInput.value.trim();
@@ -185,17 +230,107 @@
                 const m = parseInt(monthSelect.value);
                 const d = parseInt(daySelect.value);
 
-                // 1. 日数計算 (UTC基準で日付差を算出)
+                // ==========================================
+                // 1. バナナ占い (日数計算)
+                // ==========================================
                 const targetDate = Date.UTC(y, m - 1, d);
                 const diffDays = Math.floor((targetDate - REF_DATE) / (1000 * 60 * 60 * 24));
                 
-                // 60の剰余 (負の数にも対応)
                 let remainder = diffDays % 60;
                 if (remainder < 0) remainder += 60;
-
                 numValueDisplay.textContent = remainder;
 
-                // 2. CSV取得
+                // ==========================================
+                // 2. ステラナンバー計算
+                // ==========================================
+                const dobString = `${y}${m}${d}`;
+                let stellaSum = 0;
+                for (let char of dobString) {
+                    stellaSum += parseInt(char);
+                }
+
+                // 22以上なら桁を足して再計算 (21以下になるまで)
+                let stellaResult = stellaSum;
+                while (stellaResult >= 22) {
+                    const sumStr = String(stellaResult);
+                    let tempSum = 0;
+                    for (let char of sumStr) {
+                        tempSum += parseInt(char);
+                    }
+                    stellaResult = tempSum;
+                }
+                stellaValueDisplay.textContent = stellaResult;
+
+                // stera.csv の読み込みと表示
+                try {
+                    const steraRes = await fetch('stera.csv');
+                    if (steraRes.ok) {
+                        const steraTextRaw = await steraRes.text();
+                        const steraLines = steraTextRaw.split(/\r?\n/).filter(l => l.trim() !== "");
+                        const steraRows = steraLines.map(line => line.split(','));
+                        
+                        // IDが一致する行を探す (1列目がIDと仮定)
+                        const matchedRow = steraRows.find(r => parseInt(r[0]) === stellaResult);
+                        
+                        if (matchedRow) {
+                            // 2列目の内容を表示 (インデックス1)
+                            const desc = (matchedRow[1] || "").trim().replace(/^["']|["']$/g, '');
+                            stellaDescription.textContent = desc;
+                            stellaDescription.classList.remove('hidden');
+                        }
+                    }
+                } catch (e) {
+                    console.log("stera.csv loading failed or file missing.");
+                }
+
+                // ==========================================
+                // 3. テイルイヤー計算
+                // ==========================================
+                const today = new Date();
+                let age = today.getFullYear() - y;
+                const m0 = today.getMonth() + 1; 
+                const d0 = today.getDate();
+                
+                // 誕生日未到来なら年齢-1
+                if (m0 < m || (m0 === m && d0 < d)) {
+                    age--;
+                }
+                if (age < 0) age = 0;
+
+                const tailYear = (stellaResult + age) % 22;
+
+                currentAgeDisplay.textContent = age;
+                tailYearValueDisplay.textContent = tailYear;
+
+                // tale.csv の読み込みと表示
+                try {
+                    const taleRes = await fetch('tale.csv');
+                    if (taleRes.ok) {
+                        const taleTextRaw = await taleRes.text();
+                        const taleLines = taleTextRaw.split(/\r?\n/).filter(l => l.trim() !== "");
+                        const taleRows = taleLines.map(line => line.split(','));
+                        
+                        // "テイルイヤーの数字 + 1行目" を取得
+                        const targetRowIndex = tailYear;
+
+                        if (taleRows[targetRowIndex]) {
+                            // 2列目の値を取得 (インデックス1)
+                            const taleDesc = (taleRows[targetRowIndex][1] || "").trim().replace(/^["']|["']$/g, '');
+                            tailYearDescription.textContent = taleDesc;
+                            tailYearDescription.classList.remove('hidden');
+                        }
+                    }
+                } catch (e) {
+                    console.log("tale.csv loading failed or file missing.");
+                }
+
+
+                // ★ステラ・テイル表示
+                stellaContainer.classList.remove('hidden');
+
+                // ==========================================
+                // 4. CSV取得と表示 (バナナ占い)
+                // ==========================================
                 try {
                     const response = await fetch('uranai.csv');
                     if (!response.ok) throw new Error(`uranai.csv の読み込みに失敗しました (Status: ${response.status})`);
@@ -206,8 +341,6 @@
 
                     if (rows[remainder]) {
                         const row = rows[remainder];
-                        // 3列目: ファイル名, 4列目: 詳細テキスト
-                        // ファイル名に自動で .jpg を追加
                         let rawImgName = (row[2] || "").trim().replace(/^["']|["']$/g, '');
                         let infoText = (row[3] || "").trim().replace(/^["']|["']$/g, '');
 
@@ -217,10 +350,10 @@
                         }
                         
                         resultText.textContent = infoText || "占いデータが登録されていません。";
+                        
+                        // バナナ結果表示
                         resultContainer.classList.remove('hidden');
                         
-                        // 結果位置までスクロール
-                        resultContainer.scrollIntoView({ behavior: 'smooth' });
                     } else {
                         throw new Error(`計算結果 ${remainder} 番に該当するデータがCSVにありません。`);
                     }
@@ -228,9 +361,12 @@
                 } catch (err) {
                     showError(err.message);
                     if (window.location.protocol === 'file:') {
-                        showError("【重要】セキュリティ制限により、直接ファイルを開くとCSVを読み込めません。Live Server等で実行してください。");
+                        showError("【重要】ローカルセキュリティ制限により、CSVを読み込めません。Live Server等を使用してください。");
                     }
                 }
+                
+                // 最後にスクロール
+                stellaContainer.scrollIntoView({ behavior: 'smooth' });
             });
 
             function showError(msg) {
